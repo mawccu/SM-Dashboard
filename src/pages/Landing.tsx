@@ -1,182 +1,174 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDemo } from "../context/DemoContext";
 import { PLATFORMS } from "../lib/platforms";
-import {
-  IcSpark, IcClock, IcFile, IcAudience, IcContent, IcCheck, IcRefresh, IcMessage,
-} from "../lib/icons";
+import { IcContent, IcMessage, IcClock, IcAudience, IcFile, IcSpark } from "../lib/icons";
 
 const FEATURES = [
-  { Icon: IcContent, t: "One dashboard, every channel", d: "Facebook, Instagram and TikTok side by side. Followers, reach, views and engagement in a single glance." },
-  { Icon: IcMessage, t: "An AI that reads your numbers", d: "Ask what to post, why reach dipped, or when to publish. Answers grounded in your real data, never made up." },
-  { Icon: IcClock, t: "Best time to post", d: "A weekly heatmap of when your audience is actually online, so every post lands when it counts." },
-  { Icon: IcAudience, t: "Know your audience", d: "Age, gender and location breakdowns, so you make content for the people who actually follow you." },
-  { Icon: IcFile, t: "Reports in one click", d: "Beautiful, shareable reports for clients or your team. Send a link, no login required." },
-  { Icon: IcSpark, t: "Goals and alerts", d: "Set targets, track progress, and get a heads-up the moment something spikes or dips." },
+  { Icon: IcContent, t: "Every channel, one view", d: "Facebook, Instagram and TikTok, side by side. Followers, reach, views and engagement, read at a glance." },
+  { Icon: IcMessage, t: "An assistant that reads the data", d: "Ask what to post, why reach shifted, or when to publish. Grounded in your real numbers, never invented." },
+  { Icon: IcClock, t: "The right moment, found for you", d: "A weekly map of when your audience is truly present, so nothing you make arrives unheard." },
+  { Icon: IcAudience, t: "Know who is listening", d: "Age, location and interests, so the work you make is made for the people who already follow." },
+  { Icon: IcFile, t: "Reports worth sending", d: "Composed, shareable reports for a client or a team. One link, no login, nothing to explain." },
+  { Icon: IcSpark, t: "Goals, quietly kept", d: "Set an intention, watch the progress, and hear only when something genuinely moves." },
 ];
 
 const STEPS = [
-  { n: "1", t: "Create your account", d: "Sign up in seconds. No card, no setup headaches." },
-  { n: "2", t: "Connect your channels", d: "One secure tap per platform. You log in on their site, we never see your password." },
-  { n: "3", t: "Watch it come alive", d: "Your numbers sync automatically and your dashboard fills in. That's it." },
+  { n: "01", t: "Create your account", d: "A minute, no card, no configuration to wade through." },
+  { n: "02", t: "Connect your channels", d: "One secure step per platform. You sign in on their site; we never see a password." },
+  { n: "03", t: "Watch it come into focus", d: "Your numbers sync on their own and the dashboard settles into place. That is the whole of it." },
 ];
 
 export default function Landing() {
   const nav = useNavigate();
   const { enter } = useDemo();
 
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    if (!("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return; }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }),
+      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className="lp">
+    <div className="lx">
       {/* ---------- nav ---------- */}
-      <header className="lp-nav">
-        <span className="brandmark">
-          <span className="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"><path d="M2 12h4l2.5-7 4 15 3-9 2 3h4.5" /></svg></span>
-          <b>PulseBoard</b>
-        </span>
-        <nav className="lp-nav-links">
+      <header className="lx-nav">
+        <button className="lx-word" onClick={() => nav("/")}>PulseBoard</button>
+        <nav className="lx-nav-mid">
           <a href="#features">Features</a>
           <a href="#how">How it works</a>
+          <button className="lx-linklike" onClick={enter}>Live demo</button>
         </nav>
-        <div className="lp-nav-cta">
-          <button className="btn btn--ghost" onClick={() => nav("/signin")}>Sign in</button>
-          <button className="btn btn--primary" onClick={() => nav("/signup")}>Get started</button>
+        <div className="lx-nav-cta">
+          <button className="lx-ghost" onClick={() => nav("/signin")}>Sign in</button>
+          <button className="lx-btn" onClick={() => nav("/signup")}>Get started</button>
         </div>
       </header>
 
       {/* ---------- hero ---------- */}
-      <section className="lp-hero">
-        <div className="lp-hero-glow" aria-hidden="true" />
-        <div className="lp-hero-copy">
-          <span className="lp-eyebrow">Social analytics, minus the headache</span>
-          <h1>All your socials.<br />One dashboard <span className="lp-grad">that just gets it.</span></h1>
-          <p className="lp-sub">Track Facebook, Instagram and TikTok in one calm, beautiful place. Real numbers, plain-English insights, and reports your clients will actually read.</p>
-          <div className="lp-cta">
-            <button className="btn btn--primary btn--xl" onClick={() => nav("/signup")}>Get started free</button>
-            <button className="btn btn--xl btn--outline" onClick={enter}>▶ Try the live demo</button>
-          </div>
-          <div className="lp-trust">
-            <span className="muted">Works with</span>
-            {(["facebook", "instagram", "tiktok"] as const).map((p) => (
-              <span key={p} className="lp-plat" title={PLATFORMS[p].name} style={{ color: PLATFORMS[p].color }}>{PLATFORMS[p].icon}</span>
-            ))}
-          </div>
+      <section className="lx-hero">
+        <span className="lx-kicker" data-reveal><i className="lx-dot" /> Social analytics, refined</span>
+        <h1 className="lx-h1" data-reveal>Every channel.<br /><em>One clear view.</em></h1>
+        <p className="lx-lede" data-reveal>
+          PulseBoard draws Facebook, Instagram and TikTok into a single, considered dashboard.
+          Real numbers, quiet design, and insight you can actually act on.
+        </p>
+        <div className="lx-hero-cta" data-reveal>
+          <button className="lx-btn lx-btn--lg" onClick={() => nav("/signup")}>Get started</button>
+          <button className="lx-textcta" onClick={enter}>View the live demo →</button>
         </div>
 
-        {/* hero product mockup */}
-        <div className="lp-hero-art" aria-hidden="true">
-          <div className="lp-card lp-card--main">
-            <div className="lp-card-top"><span className="dot" /><span className="dot" /><span className="dot" /></div>
-            <div className="lp-mini-kpis">
+        {/* framed product visual */}
+        <div className="lx-shot" data-reveal>
+          <div className="lx-shot-bar">
+            <span className="lx-shot-dots"><i /><i /><i /></span>
+            <span className="lx-shot-title">Overview</span>
+          </div>
+          <div className="lx-shot-body">
+            <div className="lx-shot-kpis">
               {[
-                { k: "Followers", v: "246.8K", d: "+12.4%", c: "var(--fb)" },
-                { k: "Reach", v: "1.24M", d: "+8.3%", c: "var(--ig)" },
-                { k: "Engagement", v: "5.9%", d: "+2.1%", c: "var(--tt)" },
+                { k: "Followers", v: "246,800", d: "+12.4%" },
+                { k: "Reach", v: "1.24M", d: "+8.3%" },
+                { k: "Engagement", v: "5.9%", d: "+2.1%" },
+                { k: "Video views", v: "3.4M", d: "+18%" },
               ].map((m) => (
-                <div key={m.k} className="lp-mini">
-                  <span className="lp-mini-k">{m.k}</span>
-                  <span className="lp-mini-v">{m.v}</span>
-                  <span className="lp-mini-d">▲ {m.d}</span>
-                  <span className="lp-mini-bar" style={{ background: m.c }} />
+                <div key={m.k} className="lx-shot-kpi">
+                  <span className="lx-shot-k">{m.k}</span>
+                  <span className="lx-shot-v">{m.v}</span>
+                  <span className="lx-shot-d">↑ {m.d}</span>
                 </div>
               ))}
             </div>
-            <div className="lp-chart">
-              <HeroChart />
-            </div>
+            <div className="lx-shot-chart"><HeroChart /></div>
           </div>
-          <div className="lp-card lp-card--float">
-            <div className="lp-float-ic" style={{ background: "var(--brand-grad)" }}><IcSpark /></div>
-            <div>
-              <div className="lp-float-t">Post Thursday 7pm</div>
-              <div className="lp-float-d">2.3× more reach at your peak</div>
-            </div>
-          </div>
-          <div className="lp-card lp-card--pill">
-            <span className="lp-live"><i /> Live</span> TikTok reached 128K today
-          </div>
+        </div>
+
+        <div className="lx-trust" data-reveal>
+          <span>Works with</span>
+          {(["facebook", "instagram", "tiktok"] as const).map((p) => (
+            <span key={p} className="lx-plat" title={PLATFORMS[p].name}>{PLATFORMS[p].icon} {PLATFORMS[p].name}</span>
+          ))}
         </div>
       </section>
 
-      {/* ---------- stat band ---------- */}
-      <section className="lp-band">
-        {[
-          { v: "3", k: "platforms, one login" },
-          { v: "1-tap", k: "secure connect" },
-          { v: "Daily", k: "automatic sync" },
-          { v: "0", k: "spreadsheets" },
-        ].map((s) => (
-          <div key={s.k} className="lp-band-item"><span className="lp-band-v">{s.v}</span><span className="lp-band-k">{s.k}</span></div>
-        ))}
+      {/* ---------- statement ---------- */}
+      <section className="lx-statement">
+        <p data-reveal>Good decisions begin with good numbers, <em>presented with care.</em></p>
       </section>
 
       {/* ---------- features ---------- */}
-      <section className="lp-section" id="features">
-        <div className="lp-head">
-          <span className="lp-eyebrow">Everything, in one place</span>
-          <h2>Built to make you look good</h2>
-          <p>Whether it's your own brand or a client's, PulseBoard turns scattered numbers into a story you can act on.</p>
+      <section className="lx-section" id="features">
+        <div className="lx-sechead" data-reveal>
+          <span className="lx-eyebrow">What you get</span>
+          <h2 className="lx-h2">Built to make the work look effortless</h2>
         </div>
-        <div className="lp-grid">
+        <div className="lx-feats">
           {FEATURES.map((f) => (
-            <div key={f.t} className="lp-feat">
-              <span className="lp-feat-ic"><f.Icon /></span>
+            <article className="lx-feat" key={f.t} data-reveal>
+              <span className="lx-feat-ic"><f.Icon /></span>
               <h3>{f.t}</h3>
               <p>{f.d}</p>
-            </div>
+            </article>
           ))}
         </div>
       </section>
 
       {/* ---------- how it works ---------- */}
-      <section className="lp-section lp-section--tint" id="how">
-        <div className="lp-head">
-          <span className="lp-eyebrow">Up and running in minutes</span>
-          <h2>Three steps. No tech skills.</h2>
+      <section className="lx-section lx-section--tint" id="how">
+        <div className="lx-sechead" data-reveal>
+          <span className="lx-eyebrow">Getting started</span>
+          <h2 className="lx-h2">Three steps. No technical knowledge.</h2>
         </div>
-        <div className="lp-steps">
+        <div className="lx-steps">
           {STEPS.map((s) => (
-            <div key={s.n} className="lp-step">
-              <span className="lp-step-n">{s.n}</span>
+            <div className="lx-step" key={s.n} data-reveal>
+              <span className="lx-step-n">{s.n}</span>
               <h3>{s.t}</h3>
               <p>{s.d}</p>
             </div>
           ))}
         </div>
-        <div className="lp-how-note"><IcCheck /> Prefer to look before signing up? <button className="lp-linkbtn" onClick={enter}>Explore the live demo</button>, no account needed.</div>
+        <p className="lx-note" data-reveal>
+          Prefer to look before you sign up? <button className="lx-linklike" onClick={enter}>Explore the live demo</button>, no account needed.
+        </p>
       </section>
 
-      {/* ---------- final CTA ---------- */}
-      <section className="lp-final">
-        <div className="lp-final-inner">
-          <h2>Your numbers deserve better than a spreadsheet.</h2>
-          <p>Set it up once. Understand everything after.</p>
-          <div className="lp-cta">
-            <button className="btn btn--xl lp-btn-invert" onClick={() => nav("/signup")}>Get started free</button>
-            <button className="btn btn--xl btn--outline lp-outline-invert" onClick={enter}>Try the demo</button>
-          </div>
+      {/* ---------- final ---------- */}
+      <section className="lx-final" data-reveal>
+        <h2 className="lx-h2">Begin with clarity.</h2>
+        <p>Set it up once. Understand everything after.</p>
+        <div className="lx-hero-cta lx-final-cta">
+          <button className="lx-btn lx-btn--lg lx-btn--invert" onClick={() => nav("/signup")}>Get started</button>
+          <button className="lx-textcta lx-textcta--invert" onClick={enter}>View the demo →</button>
         </div>
       </section>
 
-      <footer className="lp-foot">
-        <span className="brandmark">
-          <span className="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"><path d="M2 12h4l2.5-7 4 15 3-9 2 3h4.5" /></svg></span>
-          <b>PulseBoard</b>
+      <footer className="lx-foot">
+        <span className="lx-word lx-word--sm">PulseBoard</span>
+        <span className="lx-foot-note">Analytics for Facebook, Instagram and TikTok. Made for creators and the people who manage them.</span>
+        <span className="lx-foot-links">
+          <button className="lx-linklike" onClick={() => nav("/signin")}>Sign in</button>
+          <button className="lx-linklike" onClick={enter}>Live demo</button>
         </span>
-        <span className="muted">Analytics for Facebook, Instagram &amp; TikTok. Built for creators and the people who manage them.</span>
-        <span className="muted"><button className="lp-linkbtn" onClick={() => nav("/signin")}>Sign in</button> · <button className="lp-linkbtn" onClick={enter}>Live demo</button></span>
       </footer>
     </div>
   );
 }
 
-/* Decorative multi-series area chart for the hero mockup. */
+/* Restrained multi-series area chart for the product visual. */
 function HeroChart() {
-  const W = 320, H = 96, pad = 4;
+  const W = 640, H = 150, pad = 6;
   const series = [
-    { c: "var(--fb)", pts: [30, 34, 33, 40, 45, 48, 60, 64] },
-    { c: "var(--ig)", pts: [20, 24, 30, 28, 36, 42, 46, 55] },
-    { c: "var(--tt)", pts: [10, 14, 18, 26, 30, 38, 52, 70] },
+    { c: "var(--brand)", pts: [26, 30, 29, 36, 41, 45, 58, 63, 70], w: 2.4 },
+    { c: "var(--muted)", pts: [18, 22, 27, 25, 32, 38, 41, 48, 52], w: 1.6 },
+    { c: "var(--border-strong)", pts: [12, 15, 19, 24, 27, 33, 40, 44, 60], w: 1.6 },
   ];
-  const max = 78;
+  const max = 80;
   const X = (i: number, n: number) => pad + (W - 2 * pad) * (i / (n - 1));
   const Y = (v: number) => pad + (H - 2 * pad) * (1 - v / max);
   return (
@@ -186,9 +178,9 @@ function HeroChart() {
         const area = `${line} L${X(s.pts.length - 1, s.pts.length)} ${H} L${X(0, s.pts.length)} ${H} Z`;
         return (
           <g key={si}>
-            <path d={area} fill={s.c} opacity={0.08} />
-            <path d={line} fill="none" stroke={s.c} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx={X(s.pts.length - 1, s.pts.length)} cy={Y(s.pts[s.pts.length - 1])} r={3} fill={s.c} />
+            {si === 0 && <path d={area} fill="var(--brand)" opacity={0.07} />}
+            <path d={line} fill="none" stroke={s.c} strokeWidth={s.w} strokeLinecap="round" strokeLinejoin="round" />
+            {si === 0 && <circle cx={X(s.pts.length - 1, s.pts.length)} cy={Y(s.pts[s.pts.length - 1])} r={3.2} fill="var(--brand)" />}
           </g>
         );
       })}

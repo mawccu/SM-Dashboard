@@ -5,9 +5,12 @@
    never decoration. One neutral ramp, ink primary, no gradients.
    ========================================================================== */
 @import "@fontsource-variable/inter";
+@import "@fontsource-variable/fraunces/opsz.css";
+@import "@fontsource-variable/fraunces/opsz-italic.css";
 
 :root {
   --font: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo, monospace;
 
   /* neutral ramp (cool, slight blue bias so it reads "chosen") */
@@ -16,20 +19,20 @@
   --n-500:#727984; --n-600:#565c66; --n-700:#3d424b; --n-800:#282c33;
   --n-900:#181b20; --n-950:#0e1013;
 
-  /* semantic surfaces (light) */
-  --canvas:var(--n-50);
-  --panel:var(--n-0);
-  --panel-sunk:var(--n-25);
-  --border:var(--n-150);
-  --border-strong:var(--n-200);
-  --text:#14171c;
-  --text-2:var(--n-600);
-  --muted:var(--n-500);
-  --ink:#14171c;               /* primary button / high-contrast chrome */
-  --ink-contrast:#ffffff;
-  --hover:var(--n-100);
-  --active:var(--n-150);
-  --ring:rgba(20,23,28,.42);
+  /* semantic surfaces (light) — warm, gallery-ivory ground */
+  --canvas:#f4f1e9;
+  --panel:#fffefb;
+  --panel-sunk:#faf7f0;
+  --border:#e7e1d4;
+  --border-strong:#dbd4c3;
+  --text:#1c1a15;
+  --text-2:#5b564b;
+  --muted:#8c8577;
+  --ink:#1c1a15;               /* high-contrast chrome / display ink */
+  --ink-contrast:#fffefb;
+  --hover:#efebe1;
+  --active:#e7e1d4;
+  --ring:rgba(31,92,73,.45);
   --shadow-sm:0 1px 2px rgba(16,20,28,.06), 0 1px 1px rgba(16,20,28,.04);
   --shadow-md:0 6px 20px -6px rgba(16,20,28,.16), 0 2px 6px -2px rgba(16,20,28,.08);
   --shadow-pop:0 12px 34px -10px rgba(16,20,28,.22);
@@ -47,30 +50,34 @@
   --grid:rgba(20,23,28,.06);
   --radius:9px; --radius-sm:6px; --radius-lg:13px;
 
-  /* brand — bold signature identity (landing + primary actions) */
-  --brand:#e11485; --brand-2:#ff7a3d; --brand-ink:#ffffff;
-  --brand-weak:color-mix(in srgb, var(--brand) 12%, transparent);
-  --brand-grad:linear-gradient(120deg,#e11485 0%,#f24d6e 46%,#ff7a3d 100%);
-  --brand-glow:0 10px 30px -8px color-mix(in srgb, var(--brand) 55%, transparent);
+  /* brand — restrained deep-emerald signature (quiet luxury) */
+  --brand:#1f5c49; --brand-2:#2f7d5f; --brand-ink:#fffefb; --gold:#b08d57;
+  --brand-weak:color-mix(in srgb, var(--brand) 10%, transparent);
+  --brand-grad:linear-gradient(150deg,#24705a 0%,#1c5040 100%);
+  --brand-glow:0 14px 34px -14px color-mix(in srgb, var(--brand) 40%, transparent);
 }
 
 :root[data-theme="dark"] {
-  --canvas:#0b0d10;
-  --panel:#131519;
-  --panel-sunk:#0f1114;
-  --border:#242830;
-  --border-strong:#30353f;
-  --text:#eceef1;
-  --text-2:#a6adb8;
-  --muted:#767d89;
-  --ink:#eceef1;
-  --ink-contrast:#0b0d10;
-  --hover:#1b1e24;
-  --active:#232830;
-  --ring:rgba(236,238,241,.40);
+  --canvas:#14120c;
+  --panel:#1d1a12;
+  --panel-sunk:#17140d;
+  --border:#2d2920;
+  --border-strong:#3b352a;
+  --text:#f1ecdf;
+  --text-2:#b3ab97;
+  --muted:#8a8371;
+  --ink:#f1ecdf;
+  --ink-contrast:#14120c;
+  --hover:#221e15;
+  --active:#2b271c;
+  --ring:rgba(120,190,160,.5);
   --shadow-sm:none;
   --shadow-md:0 12px 30px -12px rgba(0,0,0,.6);
-  --shadow-pop:0 16px 40px -12px rgba(0,0,0,.7);
+  --shadow-pop:0 16px 40px -14px rgba(0,0,0,.72);
+  --brand:#54b18d; --brand-2:#3f9673; --brand-ink:#14120c;
+  --brand-weak:color-mix(in srgb, var(--brand) 16%, transparent);
+  --brand-grad:linear-gradient(150deg,#54b18d 0%,#2f7d5f 100%);
+  --brand-glow:0 14px 34px -14px color-mix(in srgb, var(--brand) 42%, transparent);
 
   --pos:#39c988; --pos-weak:rgba(57,201,136,.13);
   --neg:#f0705f; --neg-weak:rgba(240,112,95,.13);
@@ -85,14 +92,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --canvas:#0b0d10; --panel:#131519; --panel-sunk:#0f1114;
-    --border:#242830; --border-strong:#30353f;
-    --text:#eceef1; --text-2:#a6adb8; --muted:#767d89;
-    --ink:#eceef1; --ink-contrast:#0b0d10;
-    --hover:#1b1e24; --active:#232830; --ring:rgba(236,238,241,.40);
+    --canvas:#14120c; --panel:#1d1a12; --panel-sunk:#17140d;
+    --border:#2d2920; --border-strong:#3b352a;
+    --text:#f1ecdf; --text-2:#b3ab97; --muted:#8a8371;
+    --ink:#f1ecdf; --ink-contrast:#14120c;
+    --hover:#221e15; --active:#2b271c; --ring:rgba(120,190,160,.5);
     --shadow-sm:none;
     --shadow-md:0 12px 30px -12px rgba(0,0,0,.6);
-    --shadow-pop:0 16px 40px -12px rgba(0,0,0,.7);
+    --shadow-pop:0 16px 40px -14px rgba(0,0,0,.72);
+    --brand:#54b18d; --brand-2:#3f9673; --brand-ink:#14120c;
+    --brand-weak:color-mix(in srgb, var(--brand) 16%, transparent);
+    --brand-grad:linear-gradient(150deg,#54b18d 0%,#2f7d5f 100%);
+    --brand-glow:0 14px 34px -14px color-mix(in srgb, var(--brand) 42%, transparent);
     --pos:#39c988; --pos-weak:rgba(57,201,136,.13);
     --neg:#f0705f; --neg-weak:rgba(240,112,95,.13);
     --warn:#e0a032; --warn-weak:rgba(224,160,50,.13);
