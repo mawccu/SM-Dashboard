@@ -46,6 +46,12 @@
 
   --grid:rgba(20,23,28,.06);
   --radius:9px; --radius-sm:6px; --radius-lg:13px;
+
+  /* brand — bold signature identity (landing + primary actions) */
+  --brand:#e11485; --brand-2:#ff7a3d; --brand-ink:#ffffff;
+  --brand-weak:color-mix(in srgb, var(--brand) 12%, transparent);
+  --brand-grad:linear-gradient(120deg,#e11485 0%,#f24d6e 46%,#ff7a3d 100%);
+  --brand-glow:0 10px 30px -8px color-mix(in srgb, var(--brand) 55%, transparent);
 }
 
 :root[data-theme="dark"] {
@@ -132,8 +138,8 @@ input,select{font:inherit}
 .btn:hover{background:var(--hover)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn svg{width:15px;height:15px}
-.btn--primary{background:var(--ink);color:var(--ink-contrast);border-color:var(--ink)}
-.btn--primary:hover{background:var(--ink);opacity:.9}
+.btn--primary{background:var(--brand);color:var(--brand-ink);border-color:transparent}
+.btn--primary:hover{background:var(--brand);filter:brightness(1.06);opacity:1}
 .btn--sm{height:29px;padding:0 10px;font-size:12.5px}
 .btn--ghost{border-color:transparent;background:transparent}
 .btn--ghost:hover{background:var(--hover)}

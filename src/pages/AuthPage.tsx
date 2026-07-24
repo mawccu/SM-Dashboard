@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useDemo } from "../context/DemoContext";
 import { isConfigured } from "../lib/supabase";
@@ -11,10 +12,11 @@ const POINTS = [
   "Audience demographics and best time to post",
 ];
 
-export default function AuthPage() {
+export default function AuthPage({ initialMode = "in" }: { initialMode?: "in" | "up" }) {
   const { signIn, signUp } = useAuth();
   const { enter } = useDemo();
-  const [mode, setMode] = useState<"in" | "up">("in");
+  const nav = useNavigate();
+  const [mode, setMode] = useState<"in" | "up">(initialMode);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +50,7 @@ export default function AuthPage() {
   return (
     <div className="auth">
       <div className="auth__aside">
-        <span className="brandmark">
+        <span className="brandmark" style={{ cursor: "pointer" }} onClick={() => nav("/")} role="link" tabIndex={0}>
           <span className="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"><path d="M2 12h4l2.5-7 4 15 3-9 2 3h4.5" /></svg></span>
           <b>PulseBoard</b>
         </span>

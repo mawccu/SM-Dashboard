@@ -5,6 +5,7 @@ import { ToastProvider } from "./context/ToastContext";
 import { DemoProvider, useDemo } from "./context/DemoContext";
 import { DashboardProvider } from "./context/DashboardContext";
 import AppLayout from "./components/AppLayout";
+import Landing from "./pages/Landing";
 import AuthPage from "./pages/AuthPage";
 import Overview from "./pages/Overview";
 import Content from "./pages/Content";
@@ -34,7 +35,16 @@ function Gate() {
   useEffect(() => { if (session && demo) exit(); }, [session, demo, exit]);
 
   if (loading) return <Splash />;
-  if (!session && !demo) return <AuthPage />;
+  if (!session && !demo) {
+    return (
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/signin" element={<AuthPage />} />
+        <Route path="/signup" element={<AuthPage initialMode="up" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    );
+  }
   return (
     <DashboardProvider>
       <Routes>

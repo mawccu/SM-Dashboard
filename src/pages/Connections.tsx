@@ -9,6 +9,17 @@ import { formatDistanceToNow } from "date-fns";
 import { IcCheck, IcRefresh, IcAlert, IcLink } from "../lib/icons";
 import type { Platform } from "../lib/types";
 
+// Turn raw OAuth error codes into plain-language, non-alarming messages.
+const ERR_MSG: Record<string, string> = {
+  meta_not_configured: "Facebook and Instagram aren't switched on yet. Add your Meta app keys to enable them.",
+  tiktok_not_configured: "TikTok isn't switched on yet. Add your TikTok app keys to enable it.",
+  not_signed_in: "Please sign in again, then try connecting.",
+  bad_state: "That connection link expired. Please try again.",
+  missing_code: "The platform didn't return a code. Please try connecting again.",
+  no_pages_found: "No Facebook Page was found on that account. Connect an account that manages a Page.",
+};
+const friendlyError = (code: string) => ERR_MSG[code] ?? `Couldn't connect (${code}). Please try again.`;
+
 export default function Connections() {
   const dash = useDash();
   const { demo } = useDemo();
@@ -21,7 +32,7 @@ export default function Connections() {
     const ok = params.get("connected");
     const error = params.get("error");
     if (ok) { toast(`${PLATFORMS[ok as Platform]?.name ?? ok} connected.`); void dash.refresh(); }
-    if (error) toast(`Connection failed: ${error}`);
+    if (error) toast(friendlyError(error));
     if (ok || error) { params.delete("connected"); params.delete("error"); setParams(params, { replace: true }); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -52,8 +63,8 @@ export default function Connections() {
       <div className="banner" style={{ marginBottom: 4 }}>
         <IcAlert />
         <div className="bt">
-          <b>Live data needs approved platform apps.</b>
-          <p>Connections use official OAuth. Until your Meta and TikTok developer apps pass review and the backend keys are set, the connect buttons will return an auth error — that’s expected. See the README for the full setup.</p>
+          <b>One step left to switch these on.</b>
+          <p>Connecting accounts uses official OAuth (users log in on the platform's own site). Add your Meta and TikTok developer-app keys to enable it. Everything else in the app is live and ready.</p>
         </div>
       </div>
 
